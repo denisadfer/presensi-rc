@@ -10,6 +10,8 @@
         <th scope="col">Time In</th>
         <th scope="col">Time Out</th>
         <th scope="col">Work Time</th>
+        <th scope="col">Salary</th>
+        <th scope="col">Bonus</th>
       </tr>
     </thead>
     <tbody>

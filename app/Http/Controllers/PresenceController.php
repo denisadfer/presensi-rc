@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presence;
+use App\Models\Position;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePresenceRequest;
 use App\Http\Requests\UpdatePresenceRequest;
@@ -106,9 +108,23 @@ class PresenceController extends Controller
         $interval = $ti->diff($to);
         $work_time = $interval->format("%H:%i:%s");
 
+        $position = User::where('id',$request->user_id)->get('position');
+        $sp = Position::where('position', $position[0]['position'])->first();
+        
+        sscanf($work_time, "%d:%d:%d", $hours, $minutes, $seconds);
+        $time_seconds = $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+        $salary = (int)($time_seconds/28800)*$sp->salary;
+        if ($time_seconds%28800 >= 3600) {
+            $bonus = (int)($time_seconds%28800/3600)*10000;
+        } else {
+            $bonus = 0;
+        }
+
         Presence::where(['user_id'=>$request->user_id, 'work_date'=>$request->work_date, 'time_in'=>$time_in[0]['time_in']])->update([
             'time_out' => $request->time_out,
-            'work_time' => $work_time
+            'work_time' => $work_time,
+            'salary' => $salary,
+            'bonus' => $bonus
         ]);
 
         return redirect('/home');
