@@ -123,12 +123,11 @@ class PresenceController extends Controller
         ]);
     }
 
-    public function list_user_presence(Request $request)
+    public function list_user_presence($id)
     {
-        $user = $request->user_id;
         return view('admin.presence', [
             "title" => "Presence",
-            "presence" => Presence::all()->where('user_id', $user)
+            "presence" => Presence::all()->where('user_id', $id)
         ]);
     }
 }

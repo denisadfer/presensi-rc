@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
 <a href="/admin/users">Back</a>
 <br><br>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presence;
+use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,8 @@ class LoginController extends Controller
     public function add_user()
     {
         return view('admin.register', [
-            "title" => "Register"
+            "title" => "Register",
+            "positions" => Position::all()
         ]);
     }
 
@@ -48,7 +50,8 @@ class LoginController extends Controller
         User::create([
             'name' => $request->name,
             'username' => $request->username,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'position' => $request->position
         ]);
 
 		return redirect('/admin/dashboard');
@@ -83,7 +86,27 @@ class LoginController extends Controller
     {
         return view('admin.employee', [
             "title" => "Employee",
-            "users" => User::all()->where('roles', 'USER')
+            "users" => User::all()->where('roles', 'USER'),
         ]);
+    }
+    
+    public function profile()
+    {
+        return view('user.profile', [
+            "title" => "Profile",
+            "user" => User::all()->where('id', Auth::user()->id),
+            "positions" => Position::all()
+        ]);
+    }
+
+    public function edit_profile(Request $request)
+    {
+        User::where('id', $request->id)->update([
+            'name' => $request->name,
+            'username' => $request->username,
+            'position' => $request->position
+        ]);
+
+        return redirect('/home');
     }
 }

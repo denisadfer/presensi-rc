@@ -20,6 +20,8 @@ class CreatePresencesTable extends Migration
             $table->time('time_in');
             $table->time('time_out')->nullable();
             $table->time('work_time')->nullable();
+            $table->integer('salary')->nullable();
+            $table->integer('bonus')->nullable();
             $table->timestamps();
         });
     }

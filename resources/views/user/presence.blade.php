@@ -1,7 +1,5 @@
 @extends('layouts.app')
 @section('content')
-<a href="/home">Back</a>
-<br><br>
 <div class="table-responsive">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">

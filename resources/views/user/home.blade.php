@@ -1,10 +1,5 @@
 @extends('layouts.app')
-@section('content')
-  <a href="/logout">Logout</a>
-  <a href="/presence">Data Presensi</a>
-  <br><br>
-
-  <h2>Halo, {{ $name[0]['name'] }}</h2>
+@section('content')<h2>Halo, {{ $name[0]['name'] }}</h2>
   <form action="/in" method="post">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user }}">
@@ -18,7 +13,7 @@
     <input type="hidden" name="user_id" value="{{ $user }}">
     <input type="hidden" id="work_date" name="work_date" value="<?= Date("Y-m-d") ?>">
     <input type="hidden" id="time_out" name="time_out" value="<?= Date("H:i:s") ?>">
-    <button type="submit" name="p_in" class="btn btn-danger fw-bold">Presensi Pulang</button>
+    <button type="submit" name="p_out" class="btn btn-danger fw-bold">Presensi Pulang</button>
   </form>
   <br>
 @endsection

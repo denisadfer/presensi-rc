@@ -64,7 +64,7 @@
               <img src="https://cdn.discordapp.com/attachments/865222321475158016/1083254891016888391/logo_rose.png" width="50%">
             </div>
             <h5 class="w-bold text-center mb-4">Register</h5>
-            <form action="/admin/register" method="post">
+            <form action="/register" method="post">
               @csrf
               @if(session()->has('loginError'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -84,6 +84,12 @@
                 <input type="password" class="form-control" id="floatingPassword" placeholder="password" name="password" required>
                 <label for="floatingPassword">Password</label>
               </div>
+              <select class="form-select" aria-label="Default select example" name="position" id="position" type="text">
+                @foreach ($positions as $position)
+                <option value="{{ $position->position }}">{{ $position->position }}</option>
+                @endforeach
+              </select>
+            </div>
               <div class="d-flex justify-content-center">
                 <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" name="register"
                   style="font-size: 17px;">Register</button>

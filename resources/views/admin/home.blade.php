@@ -1,6 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 @section('content')
-  <a href="/logout">Logout</a>
-  <a href="/admin/register">Register User</a>
-  <a href="/admin/users">List User</a>
+<h1>Halo, Admin</h1>
 @endsection
