@@ -26,20 +26,44 @@
   <form action="/in" method="post">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user }}">
-    <input type="hidden" id="work_date" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
-    <input type="hidden" id="time_in" name="time_in" value="<?= convertTime(Date("H:i:s")) ?>">
-    <button type="submit" name="p_in" class="btn btn-primary fw-bold">Presensi Masuk</button>
+    <input type="hidden" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
+    <input type="hidden" name="time_in" value="<?= convertTime(Date("H:i:s")) ?>">
+    <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold">Presensi Masuk</button>
   </form>
   <br>
   <form action="/out" method="post">
     @csrf
     <input type="hidden" name="user_id" value="{{ $user }}">
-    <input type="hidden" id="work_date" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
-    <input type="hidden" id="time_out" name="time_out" value="<?= convertTime(Date("H:i:s")) ?>">
-    <button type="submit" name="p_out" class="btn btn-danger fw-bold">Presensi Pulang</button>
+    <input type="hidden" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
+    <input type="hidden" name="time_out" value="<?= convertTime(Date("H:i:s")) ?>">
+    <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold">Presensi Pulang</button>
   </form>
   <br>
-@endsection
-<script>
+  <script>
+    var btn_in = document.getElementById('p_in');
+    var btn_out = document.getElementById('p_out');
+    var i;
 
-</script>
+    if (i == 1) {
+        btn_in.style.display = 'none';
+        btn_out.style.display = 'block';
+    }
+
+    if (i == 0) {
+        btn_in.style.display = 'block';
+        btn_out.style.display = 'none';
+    }
+
+    btn_in.addEventListener('click', () => {
+      i = 1;
+      btn_in.style.display = 'none';
+      btn_out.style.display = 'block';
+    });
+    
+    btn_out.addEventListener('click', () => {
+      i = 0;
+      btn_in.style.display = 'block';
+      btn_out.style.display = 'none';
+    });
+  </script>
+@endsection

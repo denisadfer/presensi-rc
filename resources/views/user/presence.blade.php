@@ -13,6 +13,10 @@
       </tr>
     </thead>
     <tbody>
+      @php 
+        $totals = 0; 
+        $totalb = 0; 
+      @endphp
       @foreach ($presences as $presence)
       @php $day = date('l', strtotime($presence->work_date)) @endphp
       <tr>
@@ -28,7 +32,20 @@
         <td>Rp.{{ $salary }}</td>
         <td>Rp.{{ $bonus }}</td>
       </tr>
+      @php 
+        $totals = $totals + $presence->salary;
+        $totalb = $totalb + $presence->bonus; 
+        setlocale(LC_MONETARY, "id_ID");
+        $totalss = number_format($totals,2,',','.');
+        $totalbb = number_format($totalb,2,',','.');
+      @endphp
       @endforeach
+      <tr>
+        <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
+        <td class="fs-6 fw-bold text-right align-middle">Total:</td>
+        <td class="align-middle">Rp.{{ $totalss }}</td>
+        <td class="align-middle">Rp.{{ $totalbb }}</td>
+      </tr>
     </tbody>
   </table>
 </div>
