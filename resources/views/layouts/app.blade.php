@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Rose Catering | {{ $title }}</title>
+    <link rel="icon" href="https://cdn.discordapp.com/attachments/865222321475158016/1093039011116879904/RC_white2.png">
     @include('partials.style')
   </head>
   <body>

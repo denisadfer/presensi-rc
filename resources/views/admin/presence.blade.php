@@ -2,6 +2,16 @@
 @section('content')
 <a href="/admin/users">Back</a>
 <br><br>
+<form action="/admin/users/presence/filter" method="post">
+  @csrf
+  @foreach ($presence as $p)
+  <input type="hidden" name="id" value="{{ $p->user_id }}">
+  @endforeach
+  <label for="start_date" class="fs-6 fw-bold">Week:</label>
+  <input type="week" name="week" id="week">
+  <button type="submit" class="btn btn-primary fw-bold">Filter</button>
+</form>
+<br>
 <div class="table-responsive">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">

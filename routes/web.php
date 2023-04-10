@@ -37,6 +37,7 @@ Route::prefix('admin')
         Route::get('/dashboard', [LoginController::class, 'admin']);
         Route::get('/users', [LoginController::class, 'list_user']);
         Route::get('/users/presence/{UserID}', [PresenceController::class, 'list_user_presence']);
+        Route::post('/users/presence/filter',[PresenceController::class, 'presence_filter']);
         Route::get('/position', [PositionController::class, 'index']);
         Route::get('/position/add_position', [PositionController::class, 'add_position']);
         Route::post('/position/add_position', [PositionController::class, 'create']);

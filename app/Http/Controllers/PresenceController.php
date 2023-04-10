@@ -10,6 +10,8 @@ use App\Http\Requests\StorePresenceRequest;
 use App\Http\Requests\UpdatePresenceRequest;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use Carbon\Carbon;
+use Carbon\CarbonImmutable;
 
 class PresenceController extends Controller
 {
@@ -129,16 +131,16 @@ class PresenceController extends Controller
 
         return redirect('/home');
     }
-
+    
     public function presence()
     {
         $user = Auth::user()->id;
         return view('user.presence', [
             "title" => "Presence",
-            "presences" => Presence::all()->where('user_id', $user)
+            "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
         ]);
     }
-
+    
     public function list_user_presence($id)
     {
         return view('admin.presence', [
@@ -146,4 +148,14 @@ class PresenceController extends Controller
             "presence" => Presence::all()->where('user_id', $id)
         ]);
     }
+    
+    public function presence_filter(Request $request)
+    {
+        $week = CarbonImmutable::parse($request->week);
+        return view('admin.presence', [
+            "title" => "Presence",
+            "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$week->startOfWeek(), $week->endOfWeek()])
+        ]);
+    }
+
 }
