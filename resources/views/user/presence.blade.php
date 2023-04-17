@@ -15,7 +15,9 @@
     <tbody>
       @php 
         $totals = 0; 
-        $totalb = 0; 
+        $totalb = 0;
+        $totalss = 0;
+        $totalbb = 0;
       @endphp
       @foreach ($presences as $presence)
       @php $day = date('l', strtotime($presence->work_date)) @endphp
@@ -40,12 +42,18 @@
         $totalbb = number_format($totalb,2,',','.');
       @endphp
       @endforeach
-      <tr>
-        <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
-        <td class="fs-6 fw-bold text-right align-middle">Total:</td>
-        <td class="align-middle">Rp.{{ $totalss }}</td>
-        <td class="align-middle">Rp.{{ $totalbb }}</td>
-      </tr>
+      @if ($totalss == 0)
+        <tr>
+          <td colspan="6" class="fs-6 fw-bold text-center align-middle">No Data</td>
+        </tr>
+      @else
+        <tr>
+          <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
+          <td class="fs-6 fw-bold text-right align-middle">Total:</td>
+          <td class="align-middle">Rp.{{ $totalss }}</td>
+          <td class="align-middle">Rp.{{ $totalbb }}</td>
+        </tr>
+      @endif
     </tbody>
   </table>
 </div>

@@ -36,6 +36,8 @@ Route::prefix('admin')
 ->group(function() {
         Route::get('/dashboard', [LoginController::class, 'admin']);
         Route::get('/users', [LoginController::class, 'list_user']);
+        Route::get('/users/profile/{UserID}', [LoginController::class, 'admin_profile']);
+        Route::post('/users/profile', [LoginController::class, 'admin_edit_profile']);
         Route::get('/users/presence/{UserID}', [PresenceController::class, 'list_user_presence']);
         Route::post('/users/presence/filter',[PresenceController::class, 'presence_filter']);
         Route::get('/position', [PositionController::class, 'index']);

@@ -1,5 +1,6 @@
 @extends('layouts.admin')
 @section('content')
+<a href="/admin/position" class="mb-2" style="display: block"><i class="fa-solid fa-circle-arrow-left"></i> Back</a>
 <form action="/admin/position/add_position" method="post">
   @csrf
   <div class="mb-3">

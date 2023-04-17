@@ -61,7 +61,7 @@
         <div class="col-md-5">
           <div class="card p-5 shadow">
             <div class="d-flex justify-content-center mb-3" style="margin-top: -20px;">
-              <img src="https://cdn.discordapp.com/attachments/865222321475158016/1083254891016888391/logo_rose.png" width="50%">
+              <img src="https://cdn.discordapp.com/attachments/865222321475158016/1095530652553707651/logo_rose_new.png" width="50%">
             </div>
             <h5 class="w-bold text-center mb-4">Register</h5>
             <form action="/register" method="post">

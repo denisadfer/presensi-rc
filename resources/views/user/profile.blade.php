@@ -14,17 +14,10 @@
   </div>
   <div class="mb-3">
     <label class="form-label">Position</label>
-    <select class="form-select mb-3" aria-label="Default select example" name="position" id="position" type="text">
-      <option selected value="{{ $u->position }}">{{ $u->position }}</option>
-      @foreach ($positions as $position)
-      @if ($position->position == $u->position)
-        @php
-          continue;
-        @endphp
-      @endif
-      <option value="{{ $position->position }}">{{ $position->position }}</option>
-      @endforeach
-    </select>
+    <input type="text" class="form-control" value="{{ $u->position }}" name="position" disabled>
+    {{-- <select class="form-select mb-3" aria-label="Default select example" name="position" id="position" type="text">
+      <option disabled selected value="{{ $u->position }}">{{ $u->position }}</option>
+    </select> --}}
   </div>
   <button type="submit" class="btn btn-primary">Edit</button>
   @endforeach

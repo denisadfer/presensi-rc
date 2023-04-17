@@ -8,7 +8,7 @@
     </div>
   </div> --}}
   <div class="bg-wrap">
-    <img src="https://cdn.discordapp.com/attachments/865222321475158016/1083254891016888391/logo_rose.png" alt="logo-rc" width="100%">
+    <img src="https://cdn.discordapp.com/attachments/865222321475158016/1095530652553707651/logo_rose_new.png" alt="logo-rc" width="100%">
   </div>
   <ul class="list-unstyled components mb-5">
     <li class="@if($title=='Dashboard') active @endif">

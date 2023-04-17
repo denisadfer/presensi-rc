@@ -98,15 +98,33 @@ class LoginController extends Controller
             "positions" => Position::all()
         ]);
     }
-
+    
     public function edit_profile(Request $request)
     {
         User::where('id', $request->id)->update([
             'name' => $request->name,
-            'username' => $request->username,
-            'position' => $request->position
+            'username' => $request->username
         ]);
-
+        
         return redirect('/home');
+    }
+
+    public function admin_profile($id)
+    {
+        return view('admin.profile', [
+            "title" => "Employee",
+            "user" => User::all()->where('id', $id),
+            "positions" => Position::all()
+        ]);
+    }
+
+    public function admin_edit_profile(Request $request)
+    {
+        User::where('id', $request->id)->update([
+            'name' => $request->name,
+            'username' => $request->username
+        ]);
+        
+        return redirect('/admin/users');
     }
 }

@@ -144,8 +144,9 @@ class PresenceController extends Controller
     public function list_user_presence($id)
     {
         return view('admin.presence', [
-            "title" => "Presence",
-            "presence" => Presence::all()->where('user_id', $id)
+            "title" => "Employee",
+            "presences" => Presence::all()->where('user_id', $id),
+            "presence" => Presence::all()->where('user_id', $id),
         ]);
     }
     
@@ -154,7 +155,8 @@ class PresenceController extends Controller
         $week = CarbonImmutable::parse($request->week);
         return view('admin.presence', [
             "title" => "Presence",
-            "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$week->startOfWeek(), $week->endOfWeek()])
+            "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$week->startOfWeek(), $week->endOfWeek()]),
+            "presences" => Presence::all()->where('user_id', $request->id)
         ]);
     }
 

@@ -1,17 +1,22 @@
 @extends('layouts.admin')
 @section('content')
-<a href="/admin/users">Back</a>
-<br><br>
-<form action="/admin/users/presence/filter" method="post">
+<a href="/admin/users" class="mb-2" style="display: block"><i class="fa-solid fa-circle-arrow-left"></i> Back</a>
+<form action="/admin/users/presence/filter" method="post" class="mr-1 mb-2" style="display: inline-block">
   @csrf
-  @foreach ($presence as $p)
+  @foreach ($presences as $p)
   <input type="hidden" name="id" value="{{ $p->user_id }}">
   @endforeach
   <label for="start_date" class="fs-6 fw-bold">Week:</label>
-  <input type="week" name="week" id="week">
+  <input type="week" name="week" id="week" class="mr-1">
   <button type="submit" class="btn btn-primary fw-bold">Filter</button>
 </form>
-<br>
+@foreach ($presences as $p)
+<a href="/admin/users/presence/{{ $p->user_id }}">
+  @endforeach
+  <button type="submit" class="btn btn-danger fw-bold">
+    Reset
+  </button>
+</a>
 <div class="table-responsive">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">
@@ -27,7 +32,9 @@
     <tbody>
       @php 
         $totals = 0; 
-        $totalb = 0; 
+        $totalb = 0;
+        $totalss = 0;
+        $totalbb = 0;
       @endphp
       @foreach ($presence as $p)
       @php $day = date('l', strtotime($p->work_date)) @endphp
@@ -52,12 +59,18 @@
         $totalbb = number_format($totalb,2,',','.');
       @endphp
       @endforeach
-      <tr>
-        <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
-        <td class="fs-6 fw-bold text-right align-middle">Total:</td>
-        <td class="align-middle">Rp.{{ $totalss }}</td>
-        <td class="align-middle">Rp.{{ $totalbb }}</td>
-      </tr>
+      @if ($totalss == 0)
+        <tr>
+          <td colspan="6" class="fs-6 fw-bold text-center align-middle">No Data</td>
+        </tr>
+      @else
+        <tr>
+          <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
+          <td class="fs-6 fw-bold text-right align-middle">Total:</td>
+          <td class="align-middle">Rp.{{ $totalss }}</td>
+          <td class="align-middle">Rp.{{ $totalbb }}</td>
+        </tr>
+      @endif
     </tbody>
   </table>
 </div>
