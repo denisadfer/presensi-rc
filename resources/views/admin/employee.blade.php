@@ -1,5 +1,11 @@
 @extends('layouts.admin')
 @section('content')
+<a href="/register">
+  <button type="submit" class="btn btn-primary fw-bold">
+    Add Employee
+  </button>
+</a>
+<br><br>
 <div class="table-responsive">
   <table class="table table-hover table-bordered">
     <thead class="table-dark">

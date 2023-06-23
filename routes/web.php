@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ShiftController;
 use App\Http\Controllers\PositionController;
 use App\Http\Controllers\PresenceController;
 
@@ -45,4 +46,5 @@ Route::prefix('admin')
         Route::post('/position/add_position', [PositionController::class, 'create']);
         Route::get('/position/edit_position/{PosID}', [PositionController::class, 'form_edit_position']);
         Route::post('/position/edit_position', [PositionController::class, 'edit_position']);
+        Route::post('/shift/add_shift', [ShiftController::class, 'add_shift']);
     });

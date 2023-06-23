@@ -135,9 +135,13 @@ class PresenceController extends Controller
     public function presence()
     {
         $user = Auth::user()->id;
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $firstDay = date('Y-m-d', strtotime("+0 day", strtotime($weekStartDate)));
+        $seventhDay = date('Y-m-d', strtotime("+6 day", strtotime($weekStartDate)));
         return view('user.presence', [
             "title" => "Presence",
-            "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek()])
+            "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [$firstDay, $seventhDay])
         ]);
     }
     
@@ -153,9 +157,12 @@ class PresenceController extends Controller
     public function presence_filter(Request $request)
     {
         $week = CarbonImmutable::parse($request->week);
+        $weekStartDate = $week->startOfWeek()->format('Y-m-d');
+        $firstDay = date('Y-m-d', strtotime("+0 day", strtotime($weekStartDate)));
+        $seventhDay = date('Y-m-d', strtotime("+6 day", strtotime($weekStartDate)));
         return view('admin.presence', [
             "title" => "Presence",
-            "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$week->startOfWeek(), $week->endOfWeek()]),
+            "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$firstDay, $seventhDay]),
             "presences" => Presence::all()->where('user_id', $request->id)
         ]);
     }

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Presence;
+use App\Models\Shift;
 use App\Models\Position;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 
 class LoginController extends Controller
 {
@@ -68,17 +72,35 @@ class LoginController extends Controller
 
     public function home()
     {
+        function convertDate($date, $format = 'Y-m-d')
+        {
+            $tz1 = 'GMT';
+            $tz2 = 'Asia/Jakarta'; // UTC +7
+
+            $d = new DateTime($date, new DateTimeZone($tz1));
+            $d->setTimeZone(new DateTimeZone($tz2));
+
+            return $d->format($format);
+        }
+        $currentDate = convertDate(Date("Y-m-d"));
+        // $currentDate = Date("Y-m-d");
         return view('user.home', [
             'title' => 'Home',
             'user' => Auth::user()->id,
-            'name' => User::where('id', Auth::user()->id)->get('name')
+            'name' => User::where('id', Auth::user()->id)->get('name'),
+            'shift' => Shift::where('work_date', $currentDate)->get('time_in')
         ]);
     }
 
     public function admin()
     {
+        $now = Carbon::now();
+        $weekStartDate = $now->startOfWeek()->format('Y-m-d');
+        $firstDay = date('Y-m-d', strtotime("+0 day", strtotime($weekStartDate)));
+        $seventhDay = date('Y-m-d', strtotime("+6 day", strtotime($weekStartDate)));
         return view('admin.home', [
             'title' => "Dashboard",
+            'shifts' => Shift::all()->whereBetween('work_date', [$firstDay, $seventhDay])
         ]);
     }
 
