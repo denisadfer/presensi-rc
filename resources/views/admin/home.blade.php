@@ -48,7 +48,7 @@
             @if ($shift->time_in)
               {{ $shift->time_in }}                
             @else
-                No Data
+                -
             @endif
           </td>
           <td>
