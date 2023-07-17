@@ -114,7 +114,11 @@ class PresenceController extends Controller
         $sp = Position::where('position', $position[0]['position'])->first();
         
         sscanf($work_time, "%d:%d:%d", $hours, $minutes, $seconds);
-        $time_seconds = $time_seconds = isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+        $time_seconds =  isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
+        if ($time_seconds >= 43200) {
+            $time_seconds = 43200;
+            $work_time = "12:00:00";
+        }
         $salary = (int)($time_seconds/28800)*$sp->salary;
         if ($time_seconds%28800 >= 3600) {
             $bonus = (int)($time_seconds%28800/3600)*10000;
