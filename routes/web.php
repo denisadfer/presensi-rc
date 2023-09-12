@@ -33,7 +33,7 @@ Route::middleware(['auth'])
     Route::get('/logout',[LoginController::class, 'logout']);
 });
 
-Route::prefix('admin')
+Route::middleware(['auth', 'admin'])->prefix('admin')
 ->group(function() {
         Route::get('/dashboard', [LoginController::class, 'admin']);
         Route::get('/users', [LoginController::class, 'list_user']);
