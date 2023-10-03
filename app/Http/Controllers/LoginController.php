@@ -83,12 +83,11 @@ class LoginController extends Controller
             return $d->format($format);
         }
         $currentDate = convertDate(Date("Y-m-d"));
-        // $currentDate = Date("Y-m-d");
         return view('user.home', [
             'title' => 'Home',
             'user' => Auth::user()->id,
-            'name' => User::where('id', Auth::user()->id)->get('name'),
-            'shift' => Shift::where('work_date', $currentDate)->get('time_in')
+            'name' => User::where('id', Auth::user()->id)->get(),
+            'shift' => Shift::where('work_date', $currentDate)->get(),
         ]);
     }
 

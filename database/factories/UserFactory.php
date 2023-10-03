@@ -15,12 +15,12 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $arr = ["Office", "Kitchen", "Driver", "Equipment"];
+        $arr = ["Office", "Kitchen", "Driver", "Equipment", "Dish Washer"];
         return [
             'name' => $this->faker->name(),
             'username' => $this->faker->userName(),
             'password' => Hash::make('123'),
-            'position' => $arr[(mt_rand(0,3))]
+            'position' => $arr[(mt_rand(0,4))]
         ];
     }
 

@@ -34,7 +34,8 @@
     <thead class="table-dark">
       <tr>
         <th class="fw-bold">Work Date</th>
-        <th class="fw-bold">Shift</th>
+        <th class="fw-bold">Shift IN</th>
+        <th class="fw-bold">Shift OUT</th>
         <th class="fw-bold">Add Shift</th>
       </tr>
     </thead>
@@ -47,6 +48,13 @@
           <td>
             @if ($shift->time_in)
               {{ $shift->time_in }}                
+            @else
+                -
+            @endif
+          </td>
+          <td>
+            @if ($shift->time_out)
+              {{ $shift->time_out }}                
             @else
                 -
             @endif
@@ -65,8 +73,10 @@
                     </div>
                     <div class="modal-body">
                       <input type="hidden" name="work_date" value="{{ $shift->work_date }}">
-                      <label for="time_in">Select time for shift: </label>
-                      <input type="time" name="time_in" id="time_in" value="{{ $shift->time_in }}">
+                      <label for="time_in">Select time for shift IN: </label>
+                      <input type="time" name="time_in" id="time_in" value="{{ $shift->time_in }}"><br><br>
+                      <label for="time_out">Select time for shift OUT: </label>
+                      <input type="time" name="time_out" id="time_out" value="{{ $shift->time_out }}">
                     </div>
                     <div class="modal-footer">
                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

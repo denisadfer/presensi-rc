@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Presence;
 use App\Models\Position;
 use App\Models\User;
+use App\Models\Shift;
 use Illuminate\Http\Request;
 use App\Http\Requests\StorePresenceRequest;
 use App\Http\Requests\UpdatePresenceRequest;
@@ -99,6 +100,8 @@ class PresenceController extends Controller
             'time_in' => $request->time_in,
         ]);
 
+        User::where('id', $request->user_id)->update(['presence' => 'OUT']);
+
         return redirect('/home');
     }
 
@@ -109,9 +112,20 @@ class PresenceController extends Controller
         $to = new DateTime($request->time_out);
         $interval = $ti->diff($to);
         $work_time = $interval->format("%H:%i:%s");
+        $work_time_2 = $interval->format("H:i:s");
+        $shift= Shift::where('work_date', $request->work_date)->get();
+        $si = new DateTime($shift[0]->time_in);
+        $so = new DateTime($shift[0]->time_out);
+        $interval2 = $si->diff($so);
+        $work_shift = $interval2->format("%H:%I:%S");
+        $work_shift_2 = $interval2->format("H:i:s");
 
         $position = User::where('id',$request->user_id)->get('position');
         $sp = Position::where('position', $position[0]['position'])->first();
+
+        // if($work_time_2 >= "12:00:00") {
+        //     $work_time = "12:00:00";
+        // }
         
         sscanf($work_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $time_seconds =  isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
@@ -119,6 +133,7 @@ class PresenceController extends Controller
             $time_seconds = 43200;
             $work_time = "12:00:00";
         }
+
         $salary = (int)($time_seconds/28800)*$sp->salary;
         if ($time_seconds%28800 >= 3600) {
             $bonus = (int)($time_seconds%28800/3600)*10000;
@@ -132,6 +147,7 @@ class PresenceController extends Controller
             'salary' => $salary,
             'bonus' => $bonus
         ]);
+        User::where('id', $request->user_id)->update(['presence' => 'IN']);
 
         return redirect('/home');
     }

@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             'name' => 'Admin',
             'username' => 'admin',
             'password' => Hash::make('admin'),
+            'roles' => 'ADMIN'
         ]);
         User::create([
             'name' => 'Denis Aditya',
@@ -30,7 +31,7 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('123'),
             'position' => 'Office'
         ]);
-        User::factory(5)->create();
+        User::factory(8)->create();
 
         Position::create([
             'position' => 'Office',
@@ -42,11 +43,15 @@ class DatabaseSeeder extends Seeder
         ]);
         Position::create([
             'position' => 'Driver',
-            'salary' => 80000
+            'salary' => 90000
         ]);
         Position::create([
             'position' => 'Equipment',
-            'salary' => 60000
+            'salary' => 80000
+        ]);
+        Position::create([
+            'position' => 'Dish Washer',
+            'salary' => 50000
         ]);
 
         Presence::create([

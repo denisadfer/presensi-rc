@@ -32,7 +32,8 @@ class ShiftController extends Controller
     public function add_shift(Request $request)
     {
         Shift::where('work_date', $request->work_date)->update([
-            'time_in' => $request->time_in
+            'time_in' => $request->time_in,
+            'time_out' => $request->time_out,
         ]);
         return redirect('/admin/dashboard');
     }

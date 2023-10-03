@@ -17,6 +17,7 @@ class CreateShiftsTable extends Migration
             $table->id();
             $table->date('work_date');
             $table->time('time_in')->nullable();
+            $table->time('time_out')->nullable();
             $table->timestamps();
         });
     }

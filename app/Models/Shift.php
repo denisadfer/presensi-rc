@@ -9,6 +9,7 @@ class Shift extends Model
 {
     protected $fillable = [
         'work_date',
-        'time_in'
+        'time_in',
+        'time_out'
     ];
 }
