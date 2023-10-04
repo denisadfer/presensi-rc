@@ -1,8 +1,6 @@
 @extends('layouts.app')
 @section('content')
 <h2>Halo, {{ $name[0]['name'] }}</h2>
-{{-- <h4 class="d-inline font-weight-bold text-primary">Shift IN {{ $shift[0]->time_in }}</h4>
-<h4 class="d-inline p-3 font-weight-bold text-danger">Shift OUT {{ $shift[0]->time_out }}</h4> --}}
 <h4 class="d-inline font-weight-bold">
   Shift 
   <h4 class="d-inline font-weight-bold text-primary">{{ $shift[0]->time_in }}</h4>
@@ -48,7 +46,6 @@
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold">Presensi Masuk</button>
     @elseif ($name[0]->presence == 'IN' && $t2 <= $t5)
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold" disabled>Presensi Masuk</button>
-    <h2>Presence not open yet!</h2>
     @else
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold" hidden>Presensi Masuk</button>
     @endif
@@ -64,7 +61,6 @@
     <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold" disabled>Presensi Pulang</button>
     @else
     <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold" hidden>Presensi Pulang</button>
-    <h2>You are already presence today!</h2>
     @endif
   </form>
   <br>
