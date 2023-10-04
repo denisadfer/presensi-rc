@@ -143,7 +143,8 @@ class LoginController extends Controller
     {
         User::where('id', $request->id)->update([
             'name' => $request->name,
-            'username' => $request->username
+            'username' => $request->username,
+            'position' => $request->position
         ]);
         
         return redirect('/admin/users');
