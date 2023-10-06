@@ -134,11 +134,19 @@ class PresenceController extends Controller
             $work_time = "12:00:00";
         }
 
-        $salary = (int)($time_seconds/28800)*$sp->salary;
-        if ($time_seconds%28800 >= 3600) {
-            $bonus = (int)($time_seconds%28800/3600)*10000;
-        } else {
+        //less than equal 8 hours
+        if ($time_seconds <= 28800) {
+            $salary = (int)($time_seconds/3600)*($sp->salary/12.5);
             $bonus = 0;
+        } 
+        //more than equal 8 hours
+        else {
+            $salary = (int)($time_seconds/28800)*$sp->salary;
+            if ($time_seconds%28800 >= 3600) {
+                $bonus = (int)($time_seconds%28800/3600)*10000;
+            } else {
+                $bonus = 0;
+            }
         }
 
         Presence::where(['user_id'=>$request->user_id, 'work_date'=>$request->work_date, 'time_in'=>$time_in[0]['time_in']])->update([

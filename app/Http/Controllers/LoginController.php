@@ -12,6 +12,8 @@ use App\Models\User;
 use Carbon\Carbon;
 use DateTime;
 use DateTimeZone;
+use Exception;
+use Mockery\Undefined;
 
 class LoginController extends Controller
 {
@@ -83,11 +85,23 @@ class LoginController extends Controller
             return $d->format($format);
         }
         $currentDate = convertDate(Date("Y-m-d"));
+        $presence_today = Presence::where(['user_id'=>Auth::user()->id, 'work_date'=>$currentDate])->get('id');
+        // try {
+        // } catch (Exception $e) {
+        //     $presence_today[0]->x = false;
+        // }
+        
+        // if ($presence_today != []) {
+        //     $p_today = 1;
+        // } else {
+        //     $p_today = 0;
+        // }
         return view('user.home', [
             'title' => 'Home',
             'user' => Auth::user()->id,
             'name' => User::where('id', Auth::user()->id)->get(),
             'shift' => Shift::where('work_date', $currentDate)->get(),
+            'p_today' => $presence_today
         ]);
     }
 
