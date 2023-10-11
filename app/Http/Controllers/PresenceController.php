@@ -11,6 +11,7 @@ use App\Http\Requests\StorePresenceRequest;
 use App\Http\Requests\UpdatePresenceRequest;
 use Illuminate\Support\Facades\Auth;
 use DateTime;
+use DateTimeZone;
 use Carbon\Carbon;
 use Carbon\CarbonImmutable;
 
@@ -172,7 +173,43 @@ class PresenceController extends Controller
             "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [$firstDay, $seventhDay])
         ]);
     }
+
     
+    
+    public function list_presences()
+    {
+        function convertDate($date, $format = 'Y-m-d')
+        {
+            $tz1 = 'GMT';
+            $tz2 = 'Asia/Jakarta'; // UTC +7
+
+            $d = new DateTime($date, new DateTimeZone($tz1));
+            $d->setTimeZone(new DateTimeZone($tz2));
+
+            return $d->format($format);
+        }
+
+        $today = convertDate(Date("Y-m-d"));
+        
+        return view('admin.presences', [
+            "title" => "Presences",
+            "user" => User::get(['id', 'name']),
+            "presences" => Presence::all()->where('work_date', $today),
+            "presence" => Presence::all()->where('work_date', $today),
+        ]);
+    }
+
+    public function list_presences_filter(Request $request)
+    {
+        return view('admin.presences', [
+            "title" => "Presences",
+            "user" => User::get(['id', 'name']),
+            "presences" => Presence::all()->where('work_date', $request->date),
+            "presence" => Presence::all()->where('work_date', $request->date),
+            
+        ]);
+    }
+
     public function list_user_presence($id)
     {
         return view('admin.presence', [
@@ -189,7 +226,7 @@ class PresenceController extends Controller
         $firstDay = date('Y-m-d', strtotime("+0 day", strtotime($weekStartDate)));
         $seventhDay = date('Y-m-d', strtotime("+6 day", strtotime($weekStartDate)));
         return view('admin.presence', [
-            "title" => "Presence",
+            "title" => "Employee",
             "presence" => Presence::all()->where('user_id', $request->id)->whereBetween('work_date', [$firstDay, $seventhDay]),
             "presences" => Presence::all()->where('user_id', $request->id)
         ]);

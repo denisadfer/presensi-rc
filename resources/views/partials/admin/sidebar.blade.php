@@ -14,6 +14,9 @@
     <li class="@if($title=='Dashboard') active @endif">
       <a href="/admin/dashboard"><span class="fa fa-home mr-3"></span>Dashboard</a>
     </li>
+    <li class="@if($title=='Presences') active @endif">
+      <a href="/admin/presences" class=""><span class="fa fa-clipboard mr-3"></span> Presences</a>
+    </li>
     <li class="@if($title=='Employee') active @endif">
       <a href="/admin/users" class=""><span class="fa fa-user mr-3"></span> Employee</a>
     </li>

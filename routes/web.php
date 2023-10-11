@@ -36,6 +36,8 @@ Route::middleware(['auth'])
 Route::middleware(['auth', 'admin'])->prefix('admin')
 ->group(function() {
         Route::get('/dashboard', [LoginController::class, 'admin']);
+        Route::get('/presences', [PresenceController::class, 'list_presences']);
+        Route::post('/presences/filter', [PresenceController::class, 'list_presences_filter']);
         Route::get('/users', [LoginController::class, 'list_user']);
         Route::get('/users/profile/{UserID}', [LoginController::class, 'admin_profile']);
         Route::post('/users/profile', [LoginController::class, 'admin_edit_profile']);
