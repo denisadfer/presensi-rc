@@ -174,8 +174,6 @@ class PresenceController extends Controller
         ]);
     }
 
-    
-    
     public function list_presences()
     {
         function convertDate($date, $format = 'Y-m-d')
