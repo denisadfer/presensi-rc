@@ -48,8 +48,24 @@
           setlocale(LC_MONETARY, "id_ID");
           $salary = number_format($p->salary,2,',','.');
           $bonus = number_format($p->bonus,2,',','.');
+          $wt = new Datetime($p->work_time);
+          $wt2 = $wt->format('H:i:s');
+          $si = new Datetime($shift_in[0]->time_in);
+          $si2 = $si->format('H:i:s');
+          $si3 = new DateTime(date('H:i:s', strtotime($si2) - 900));
         @endphp
-        <td>Rp.{{ $salary }}</td>
+        <td>
+          Rp.{{ $salary }}
+          @if ($p->time_out && $wt2 <= '01:00:00')
+          <button type="button" style="border: none; background: none" data-toggle="popover" title="Jam kerja kurang dari 1 jam!">
+            <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
+          </button>
+          @elseif ($p->time_out && $p->time_in <= $si3)
+          <button type="button" style="border: none; background: none" data-toggle="popover" title="Presensi lebih awal 15 menit dari waktu masuk shift!">
+            <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
+          </button>
+          @endif
+        </td>
         <td>Rp.{{ $bonus }}</td>
       </tr>
       @php 

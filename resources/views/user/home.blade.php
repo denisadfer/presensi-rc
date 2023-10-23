@@ -29,12 +29,12 @@
 
     return $d->format($format);
   }
-    $t1 = new DateTime($shift[0]->time_in);
-    $t2 = new DateTime(convertTime(Date("H:i:s")));
-    $t4 = $t1->format('H:i:s');
-    $t3 = new DateTime(date('H:i:s', strtotime($t4) + 1200));
-    $t5 = new DateTime(date('H:i:s', strtotime($t4) - 1800));
-    $t6 = new DateTime($shift[0]->time_out);
+    // $t1 = new DateTime($shift[0]->time_in);
+    // $t2 = new DateTime(convertTime(Date("H:i:s")));
+    // $t4 = $t1->format('H:i:s');
+    // $t3 = new DateTime(date('H:i:s', strtotime($t4) + 1200));
+    // $t5 = new DateTime(date('H:i:s', strtotime($t4) - 1800));
+    // $t6 = new DateTime($shift[0]->time_out);
 @endphp
 <br><br>
   <form action="/in" method="post">
@@ -42,12 +42,10 @@
     <input type="hidden" name="user_id" value="{{ $user }}">
     <input type="hidden" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
     <input type="hidden" name="time_in" value="<?= convertTime(Date("H:i:s")) ?>">
-    @if ($name[0]->presence == 'IN' && $t2 <= $t5)
-    <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold" disabled>Presensi Masuk</button>
-    @elseif ($name[0]->presence == 'IN' && $p_today == '[]')
+    @if ($name[0]->presence == 'IN' && $p_today == '[]')
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold">Presensi Masuk</button>
     @elseif ($name[0]->presence == 'IN' && $p_today !== '[]')
-    <i class="d-inline fa-solid fa-circle-check fa-2xl" style="color: #01ba01;"><h2 class="d-inline font-weight-bold"> You are already presence today!</h2></i>
+    <i class="d-inline fa-solid fa-circle-check fa-2xl" style="color: #01ba01;"><h2 class="d-inline font-weight-bold"> Anda Sudah Presensi Hari Ini!</h2></i>
     @else
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold" hidden>Presensi Masuk</button>
     @endif
@@ -59,8 +57,6 @@
     <input type="hidden" name="time_out" value="<?= convertTime(Date("H:i:s")) ?>">
     @if ($name[0]->presence == 'OUT')
     <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold">Presensi Pulang</button>
-    {{-- @elseif ($name[0]->presence)
-    <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold" disabled>Presensi Pulang</button> --}}
     @else
     <button type="submit" id="p_out" name="p_out" class="btn btn-danger fw-bold" hidden>Presensi Pulang</button>
     @endif

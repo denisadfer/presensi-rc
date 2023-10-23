@@ -110,23 +110,17 @@ class PresenceController extends Controller
     {
         $time_in = Presence::where(['user_id'=>$request->user_id, 'work_date'=>$request->work_date])->get('time_in');
         $ti = new DateTime($time_in[0]['time_in']);
+        $ti2 = $ti->format('H:i:s');
         $to = new DateTime($request->time_out);
         $interval = $ti->diff($to);
         $work_time = $interval->format("%H:%i:%s");
-        $work_time_2 = $interval->format("H:i:s");
         $shift= Shift::where('work_date', $request->work_date)->get();
         $si = new DateTime($shift[0]->time_in);
-        $so = new DateTime($shift[0]->time_out);
-        $interval2 = $si->diff($so);
-        $work_shift = $interval2->format("%H:%I:%S");
-        $work_shift_2 = $interval2->format("H:i:s");
+        $si2 = $si->format('H:i:s');
+        $si15 = new DateTime(date('H:i:s', strtotime($si2) + 900));
 
         $position = User::where('id',$request->user_id)->get('position');
         $sp = Position::where('position', $position[0]['position'])->first();
-
-        // if($work_time_2 >= "12:00:00") {
-        //     $work_time = "12:00:00";
-        // }
         
         sscanf($work_time, "%d:%d:%d", $hours, $minutes, $seconds);
         $time_seconds =  isset($seconds) ? $hours * 3600 + $minutes * 60 + $seconds : $hours * 60 + $minutes;
@@ -135,9 +129,14 @@ class PresenceController extends Controller
             $work_time = "12:00:00";
         }
 
+        //presence 15 minutes earlier than shift
+        if ($ti2 <= $si15) {
+            $salary = 0;
+            $bonus = 0;
+        }
         //less than equal 8 hours
-        if ($time_seconds <= 28800) {
-            $salary = (int)($time_seconds/3600)*($sp->salary/12.5);
+        else if ($time_seconds <= 28800) {
+            $salary = (int)($time_seconds/3600)*($sp->salary/8);
             $bonus = 0;
         } 
         //more than equal 8 hours
@@ -170,10 +169,11 @@ class PresenceController extends Controller
         $seventhDay = date('Y-m-d', strtotime("+6 day", strtotime($weekStartDate)));
         return view('user.presence', [
             "title" => "Presence",
-            "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [$firstDay, $seventhDay])
+            "presences" => Presence::all()->where('user_id', $user)->whereBetween('work_date', [$firstDay, $seventhDay]),
         ]);
     }
 
+    
     public function list_presences()
     {
         function convertDate($date, $format = 'Y-m-d')
@@ -186,7 +186,6 @@ class PresenceController extends Controller
 
             return $d->format($format);
         }
-
         $today = convertDate(Date("Y-m-d"));
         
         return view('admin.presences', [
@@ -194,6 +193,7 @@ class PresenceController extends Controller
             "user" => User::get(['id', 'name']),
             "presences" => Presence::all()->where('work_date', $today),
             "presence" => Presence::all()->where('work_date', $today),
+            'shift_in' => Shift::where('work_date', $today)->get('time_in')
         ]);
     }
 
