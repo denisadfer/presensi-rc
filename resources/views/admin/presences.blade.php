@@ -29,6 +29,17 @@
         $totalb = 0;
         $totalss = 0;
         $totalbb = 0;
+        function convertDate($date, $format = 'Y-m-d')
+        {
+          $tz1 = 'GMT';
+          $tz2 = 'Asia/Jakarta'; // UTC +7
+
+          $d = new DateTime($date, new DateTimeZone($tz1));
+          $d->setTimeZone(new DateTimeZone($tz2));
+
+          return $d->format($format);
+        }
+        $today = convertDate(Date("Y-m-d"))
       @endphp
       @foreach ($presence as $p)
       @foreach ($user as $u)
@@ -50,17 +61,18 @@
           $bonus = number_format($p->bonus,2,',','.');
           $wt = new Datetime($p->work_time);
           $wt2 = $wt->format('H:i:s');
-          $si = new Datetime($shift_in[0]->time_in);
-          $si2 = $si->format('H:i:s');
-          $si3 = new DateTime(date('H:i:s', strtotime($si2) - 900));
         @endphp
         <td>
           Rp.{{ $salary }}
-          @if ($p->time_out && $wt2 <= '01:00:00')
+          @if (!$p->time_out && $today  != $p->work_date)
+          <button type="button" style="border: none; background: none" data-toggle="popover" title="Tidak melakukan presensi pulang!">
+            <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
+          </button>
+          @elseif ($p->time_out && $wt2 <= '01:00:00')
           <button type="button" style="border: none; background: none" data-toggle="popover" title="Jam kerja kurang dari 1 jam!">
             <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
           </button>
-          @elseif ($p->time_out && $p->time_in <= $si3)
+          @elseif ($p->time_out && $p->salary == 0)
           <button type="button" style="border: none; background: none" data-toggle="popover" title="Presensi lebih awal 15 menit dari waktu masuk shift!">
             <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
           </button>
@@ -82,12 +94,6 @@
           <td colspan="6" class="fs-6 fw-bold text-center align-middle">No Data</td>
         </tr>
       @else
-        {{-- <tr>
-          <td colspan="3" style="border-bottom: solid rgba(255, 255, 255, 0); border-left: none"></td>
-          <td class="fs-6 fw-bold text-right align-middle">Total:</td>
-          <td class="align-middle">Rp.{{ $totalss }}</td>
-          <td class="align-middle">Rp.{{ $totalbb }}</td>
-        </tr> --}}
       @endif
     </tbody>
   </table>

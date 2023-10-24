@@ -42,7 +42,9 @@
     <input type="hidden" name="user_id" value="{{ $user }}">
     <input type="hidden" name="work_date" value="<?= convertDate(Date("Y-m-d")) ?>">
     <input type="hidden" name="time_in" value="<?= convertTime(Date("H:i:s")) ?>">
-    @if ($name[0]->presence == 'IN' && $p_today == '[]')
+    @if (!$shift[0]->time_in)
+    <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold" disabled>Presensi Masuk</button>
+    @elseif ($name[0]->presence == 'IN' && $p_today == '[]')
     <button type="submit" id="p_in" name="p_in" class="btn btn-primary fw-bold">Presensi Masuk</button>
     @elseif ($name[0]->presence == 'IN' && $p_today !== '[]')
     <i class="d-inline fa-solid fa-circle-check fa-2xl" style="color: #01ba01;"><h2 class="d-inline font-weight-bold"> Anda Sudah Presensi Hari Ini!</h2></i>

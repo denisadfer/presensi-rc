@@ -18,6 +18,17 @@
         $totalb = 0;
         $totalss = 0;
         $totalbb = 0;
+        function convertDate($date, $format = 'Y-m-d')
+        {
+          $tz1 = 'GMT';
+          $tz2 = 'Asia/Jakarta'; // UTC +7
+
+          $d = new DateTime($date, new DateTimeZone($tz1));
+          $d->setTimeZone(new DateTimeZone($tz2));
+
+          return $d->format($format);
+        }
+        $today = convertDate(Date("Y-m-d"))
       @endphp
       @foreach ($presences as $presence)
       @php $day = date('l', strtotime($presence->work_date)) @endphp
@@ -35,7 +46,11 @@
         @endphp
         <td>
           Rp.{{ $salary }}
-          @if ($presence->time_out && $wt2 <= '01:00:00')
+          @if (!$presence->time_out && $today  != $presence->work_date)
+          <button type="button" style="border: none; background: none" data-toggle="popover" title="Tidak melakukan presensi pulang!">
+            <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
+          </button>
+          @elseif ($presence->time_out && $wt2 <= '01:00:00')
           <button type="button" style="border: none; background: none" data-toggle="popover" title="Jam kerja kurang dari 1 jam!">
             <i class="fa-solid fa-circle-exclamation fa-xl" style="color: #f4d033;"></i>
           </button>

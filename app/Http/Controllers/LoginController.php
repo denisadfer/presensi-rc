@@ -86,12 +86,19 @@ class LoginController extends Controller
         }
         $currentDate = convertDate(Date("Y-m-d"));
         $presence_today = Presence::where(['user_id'=>Auth::user()->id, 'work_date'=>$currentDate])->get('id');
+        $presence = User::where('id', Auth::user()->id)->get('presence');
+
+        if ($presence_today == '[]' && $presence[0]->presence == 'OUT') {
+            User::where('id', Auth::user()->id)->update(['presence' => 'IN']);
+        }
+
         return view('user.home', [
             'title' => 'Home',
             'user' => Auth::user()->id,
             'name' => User::where('id', Auth::user()->id)->get(),
             'shift' => Shift::where('work_date', $currentDate)->get(),
             'p_today' => $presence_today,
+            'p' => $presence
         ]);
     }
 
