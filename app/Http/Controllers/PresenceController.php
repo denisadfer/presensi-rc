@@ -117,7 +117,7 @@ class PresenceController extends Controller
         $shift= Shift::where('work_date', $request->work_date)->get();
         $si = new DateTime($shift[0]->time_in);
         $si2 = $si->format('H:i:s');
-        $si15 = new DateTime(date('H:i:s', strtotime($si2) + 900));
+        $si15 = new DateTime(date('H:i:s', strtotime($si2) - 900));
 
         $position = User::where('id',$request->user_id)->get('position');
         $sp = Position::where('position', $position[0]['position'])->first();
@@ -130,7 +130,7 @@ class PresenceController extends Controller
         }
 
         //presence 15 minutes earlier than shift
-        if ($ti2 <= $si15) {
+        if ($ti <= $si15) {
             $salary = 0;
             $bonus = 0;
         }

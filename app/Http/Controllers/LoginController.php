@@ -98,7 +98,6 @@ class LoginController extends Controller
             'name' => User::where('id', Auth::user()->id)->get(),
             'shift' => Shift::where('work_date', $currentDate)->get(),
             'p_today' => $presence_today,
-            'p' => $presence
         ]);
     }
 
