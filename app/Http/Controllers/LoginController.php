@@ -53,14 +53,18 @@ class LoginController extends Controller
 
     public function create(Request $request)
     {
-        User::create([
-            'name' => $request->name,
-            'username' => $request->username,
-            'password' => Hash::make($request->password),
-            'position' => $request->position
-        ]);
-
-		return redirect('/admin/dashboard');
+        $user = User::where('username', $request->username)->get('id');
+        if($user != '[]') {
+            return back()->with('regisError', 'Username Sudah Ada!');
+        } elseif ($user == '[]'){
+            User::create([
+                'name' => $request->name,
+                'username' => $request->username,
+                'password' => Hash::make($request->password),
+                'position' => $request->position
+            ]);
+            return redirect('/admin/dashboard');
+        }
     }
 
     public function logout(Request $request)

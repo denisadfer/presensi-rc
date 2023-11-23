@@ -67,9 +67,9 @@
             <h5 class="w-bold text-center mb-4">Register</h5>
             <form action="/register" method="post">
               @csrf
-              @if(session()->has('loginError'))
+              @if(session()->has('regisError'))
                 <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                  {{ session('loginError') }}
+                  {{ session('regisError') }}
                   <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
               @endif
